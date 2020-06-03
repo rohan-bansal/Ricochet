@@ -43,3 +43,15 @@ Add this to your `build.gradle`:
 ```$xslt
 compile "me.rohanbansal.ricochet:ricochet:1.5-SNAPSHOT"
 ```
+
+### Other
+
+Download the latest jar from the releases page and add it as a library in your IDE of choice.
+
+You can also build it from source, to do that:
+
+1. Clone the repository
+2. Run `./gradlew build && ./gradlew run` in the folder (remove the `./` if you are on Windows)
+3. Run `./gradlew testJar`
+4. The binary will be available in `build/libs`
+
