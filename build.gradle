@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+group 'me.rohanbansal'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
+    google()
+}
+
+task distJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Ricochet',
+                'Implementation-Version': version,
+                'Main-Class': ''
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+ext {
+    gdxVersion = '1.9.10'
+    box2DLightsVersion = '1.4'
+
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+}
