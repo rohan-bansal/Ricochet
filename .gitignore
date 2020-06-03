@@ -8,6 +8,7 @@ hs_err_pid*
 /local.properties
 .gradle/
 gradle-app.setting
+gradle.properties
 /build/
 /android/build/
 /core/build/
