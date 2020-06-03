@@ -24,5 +24,22 @@
 
 ## How To Install
 
-1. Download the latest jar from the releases page.
-2. Import it as a library in your IDE of choice, and you're good to go!
+### Maven
+
+Add this to your `pom.xml`:
+
+```$xslt
+<dependency>
+  <groupId>me.rohanbansal.ricochet</groupId>
+  <artifactId>ricochet</artifactId>
+  <version>1.5-SNAPSHOT</version>
+</dependency>
+```
+
+### Gradle
+
+Add this to your `build.gradle`:
+
+```$xslt
+compile "me.rohanbansal.ricochet:ricochet:1.5-SNAPSHOT"
+```
