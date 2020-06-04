@@ -28,6 +28,15 @@ public class TextDrawer {
         drawer = new BitmapFont(Gdx.files.internal(fontFilePath));
     }
 
+    /**
+     *
+     * @param batch spritebatch used to draw
+     * @param text  characters to render
+     * @param x x position
+     * @param y y position
+     * @param color color of text to be drawn
+     * @param scale size of text to be drawn
+     */
     public static void drawText(SpriteBatch batch, String text, float x, float y, Color color, float scale) {
         drawCalls.add(new Text(batch, text, x, y, color, scale));
     }
