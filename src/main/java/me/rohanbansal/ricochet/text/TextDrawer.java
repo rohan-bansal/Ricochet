@@ -29,7 +29,7 @@ public class TextDrawer {
     }
 
     /**
-     *
+     * Draws text when called, but requires continuous calls to keep the text there
      * @param batch spritebatch used to draw
      * @param text  characters to render
      * @param x x position
@@ -41,15 +41,34 @@ public class TextDrawer {
         drawCalls.add(new Text(batch, text, x, y, color, scale));
     }
 
+    /**
+     * Draws text for a specific amount of time
+     * @param batch spritebatch used to draw
+     * @param text characters to render
+     * @param x x position
+     * @param y y position
+     * @param color color of text to be drawn
+     * @param scale size of text to be drawn
+     * @param secTimeout time in seconds for how long the text should be drawn for
+     */
     public static void drawTimeoutText(SpriteBatch batch, String text, float x, float y, Color color, float scale, float secTimeout) {
         drawTimeout.add(new TextWithTimeout(batch, text, x, y, color, scale, secTimeout));
     }
 
-    public static BitmapFont getDrawer(float scale) {
+    /**
+     * For use with a GlyphLayout, so that the GlyphLayout processes the text with the correct scale
+     * @param scale size of text for use with layout
+     * @return returns the bitmapfont object
+     */
+    public static BitmapFont getScaledDrawer(float scale) {
         drawer.getData().setScale(scale);
         return drawer;
     }
 
+    /**
+     * Necessary update method to place in the main render loop that draws all pending text in the stack
+     * @param camera camera to draw on
+     */
     public static void update(CameraController camera) {
         if(drawCalls.size() > 0) {
             for(int i = 0; i < drawCalls.size(); i++) {
