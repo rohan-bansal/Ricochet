@@ -7,30 +7,35 @@ import com.badlogic.gdx.math.Vector2;
 import me.rohanbansal.ricochet.camera.CameraController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EffectFactory {
 
-    public enum EffectType {
-            VORTEX, EXPLOSION
-    }
+    private static HashMap<String, Effect> loadedEffects = new HashMap<>();
 
     private static TextureAtlas atlas;
     private static ArrayList<Effect> effects = new ArrayList<>();
     private static ArrayList<Effect> effectRemoveQueue = new ArrayList<>();
 
-    public static Effect createEffect(EffectType effect, Vector2 position, boolean looping, float scale, CameraController camera) {
+    public static void loadEffect(String effectName, String textureAtlasPackPath, float frameSpeed) {
+        atlas = new TextureAtlas(Gdx.files.internal(textureAtlasPackPath));
+        Effect particle = new Effect(frameSpeed, atlas, null, false, 1, null);
+        loadedEffects.put(effectName, particle);
+    }
+
+    public static Effect createEffect(String effectName, Vector2 position, boolean looping, float scale, CameraController camera) throws Exception {
         Effect particle = null;
 
-        if(effect == EffectType.EXPLOSION) {
-            atlas = new TextureAtlas(Gdx.files.internal("effects/explosion.pack"));
-            particle = new Effect(0.2f, atlas, position, looping, scale, camera);
-            effects.add(particle);
-        } else if(effect == EffectType.VORTEX) {
-            atlas = new TextureAtlas(Gdx.files.internal("effects/fireRing.pack"));
-            particle = new Effect(0.05f, atlas, position, looping, scale, camera);
-            effects.add(particle);
+        for(String name : loadedEffects.keySet()) {
+            if(name.equals(effectName)) {
+                particle = loadedEffects.get(name).duplicateWith(position, looping, scale, camera);
+                effects.add(particle);
+            }
         }
 
+        if(particle == null) {
+            throw new Exception("Could not find effect with that name. Did you load it first with 'loadEffect()'?");
+        }
         return particle;
     }
 

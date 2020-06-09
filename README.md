@@ -55,3 +55,5 @@ You can also build it from source, to do that:
 3. Run `./gradlew testJar`
 4. The binary will be available in `build/libs`
 
+
+Built by Rohan Bansal.

@@ -18,10 +18,6 @@ public class CameraController {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    private boolean lerping = false;
-    private float lerpValue = 0f;
-    private float lerpSpeed = 0f;
-
     private float zoomToVal = 0;
     private boolean zooming = false;
     private long startTime = 0L;
@@ -32,6 +28,7 @@ public class CameraController {
     private Interpolation interp;
     private Vector3 glideTo = null;
     private float alpha = 0f;
+    private boolean concurrentAction = false;
 
     private boolean action_in_progress = false;
 
@@ -66,6 +63,9 @@ public class CameraController {
                     }
                 } else if(action.getAction().equals("zoomTo")) {
                     if(!action_in_progress) {
+                        if(action.getDoWith() != null) {
+                            parseConcurrentAction(action.getDoWith());
+                        }
                         this.smoothZoomTo(action.getZoomTo().get("zoom"), action.getZoomTo().get("duration"), action.getZoomInterp());
                         actionsToRemove.add(action);
                     }
@@ -76,6 +76,9 @@ public class CameraController {
                     }
                 } else if(action.getAction().equals("glide")) {
                     if(!action_in_progress) {
+                        if(action.getDoWith() != null) {
+                            parseConcurrentAction(action.getDoWith());
+                        }
                         smoothTranslateTo(action.getGlideTo().get("location"), action.getGlideTo().get("alpha").x, action.getGlideInterp());
                         actionsToRemove.add(action);
                     }
@@ -89,6 +92,18 @@ public class CameraController {
             }
         }
 
+    }
+
+    private void parseConcurrentAction(CameraAction action) {
+        if(action.getAction().equals("glide")) {
+            action_in_progress = true;
+            smoothTranslateTo(action.getGlideTo().get("location"), action.getGlideTo().get("alpha").x, action.getGlideInterp());
+            concurrentAction = true;
+        } else if(action.getAction().equals("zoomTo")) {
+            action_in_progress = true;
+            smoothZoomTo(action.getZoomTo().get("zoom"), action.getZoomTo().get("duration"), action.getZoomInterp());
+            concurrentAction = true;
+        }
     }
 
     public void update() {
@@ -110,7 +125,8 @@ public class CameraController {
             if(distance <= 2f) {
                 camera.position.set(glideTo.x, glideTo.y, 0);
                 glideTo = null;
-                action_in_progress = false;
+                if(!concurrentAction) action_in_progress = false;
+                concurrentAction = false;
             }
         }
 
@@ -122,7 +138,8 @@ public class CameraController {
                 camera.zoom = interp.apply(zoomOrigin, zoomToVal, progress);
             } else {
                 zooming = false;
-                action_in_progress = false;
+                if(!concurrentAction) action_in_progress = false;
+                concurrentAction = false;
             }
         }
 
