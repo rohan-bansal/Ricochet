@@ -9,21 +9,21 @@ import me.rohanbansal.ricochet.camera.CameraController;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class EffectFactory {
+public class EffectCreator {
 
-    private static HashMap<String, Effect> loadedEffects = new HashMap<>();
+    private HashMap<String, Effect> loadedEffects = new HashMap<>();
 
-    private static TextureAtlas atlas;
-    private static ArrayList<Effect> effects = new ArrayList<>();
+    private TextureAtlas atlas;
+    private ArrayList<Effect> effects = new ArrayList<>();
     private static ArrayList<Effect> effectRemoveQueue = new ArrayList<>();
 
-    public static void loadEffect(String effectName, String textureAtlasPackPath, float frameSpeed) {
+    public void loadEffect(String effectName, String textureAtlasPackPath, float frameSpeed) {
         atlas = new TextureAtlas(Gdx.files.internal(textureAtlasPackPath));
         Effect particle = new Effect(frameSpeed, atlas, null, false, 1, null);
         loadedEffects.put(effectName, particle);
     }
 
-    public static Effect createEffect(String effectName, Vector2 position, boolean looping, float scale, CameraController camera) throws Exception {
+    public Effect createEffect(String effectName, Vector2 position, boolean looping, float scale, CameraController camera) {
         Effect particle = null;
 
         for(String name : loadedEffects.keySet()) {
@@ -33,13 +33,10 @@ public class EffectFactory {
             }
         }
 
-        if(particle == null) {
-            throw new Exception("Could not find effect with that name. Did you load it first with 'loadEffect()'?");
-        }
         return particle;
     }
 
-    public static void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         for(Effect f : effects) {
             f.render(f.camera, batch);
         }
@@ -55,7 +52,7 @@ public class EffectFactory {
         effectRemoveQueue.add(effect);
     }
 
-    public static void disposeAtlas() {
+    public void disposeAtlas() {
         atlas.dispose();
     }
 }

@@ -33,7 +33,7 @@ public class Effect {
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime, looping);
         if(animation.isAnimationFinished(stateTime) && !looping) {
-            EffectFactory.deleteEffect(this);
+            EffectCreator.deleteEffect(this);
         }
 
         batch.setProjectionMatrix(camera.getCamera().combined);

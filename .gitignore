@@ -2,7 +2,7 @@
 *.war
 *.ear
 hs_err_pid*
-/src/main/java/me/rohanbansal/ricochet/Main.java
+/src/main/java/me/rohanbansal/ricochet/Test.java
 
 /local.properties
 .gradle/
