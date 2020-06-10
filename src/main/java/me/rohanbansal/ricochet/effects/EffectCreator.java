@@ -11,19 +11,19 @@ import java.util.HashMap;
 
 public class EffectCreator {
 
-    private HashMap<String, Effect> loadedEffects = new HashMap<>();
+    private static HashMap<String, Effect> loadedEffects = new HashMap<>();
 
-    private TextureAtlas atlas;
-    private ArrayList<Effect> effects = new ArrayList<>();
+    private static TextureAtlas atlas;
+    private static ArrayList<Effect> effects = new ArrayList<>();
     private static ArrayList<Effect> effectRemoveQueue = new ArrayList<>();
 
-    public void loadEffect(String effectName, String textureAtlasPackPath, float frameSpeed) {
+    public static void loadEffect(String effectName, String textureAtlasPackPath, float frameSpeed) {
         atlas = new TextureAtlas(Gdx.files.internal(textureAtlasPackPath));
         Effect particle = new Effect(frameSpeed, atlas, null, false, 1, null);
         loadedEffects.put(effectName, particle);
     }
 
-    public Effect createEffect(String effectName, Vector2 position, boolean looping, float scale, CameraController camera) {
+    public static Effect createEffect(String effectName, Vector2 position, boolean looping, float scale, CameraController camera) {
         Effect particle = null;
 
         for(String name : loadedEffects.keySet()) {
@@ -36,7 +36,7 @@ public class EffectCreator {
         return particle;
     }
 
-    public void render(SpriteBatch batch) {
+    public static void render(SpriteBatch batch) {
         for(Effect f : effects) {
             f.render(f.camera, batch);
         }
@@ -52,7 +52,7 @@ public class EffectCreator {
         effectRemoveQueue.add(effect);
     }
 
-    public void disposeAtlas() {
+    public static void disposeAtlas() {
         atlas.dispose();
     }
 }

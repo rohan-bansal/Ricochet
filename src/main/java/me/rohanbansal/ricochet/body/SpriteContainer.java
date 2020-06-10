@@ -1,9 +1,11 @@
 package me.rohanbansal.ricochet.body;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Disposable;
+import me.rohanbansal.ricochet.camera.CameraController;
 import me.rohanbansal.ricochet.world.WorldManager;
 
 public class SpriteContainer extends BodyHolder implements Disposable {
@@ -24,6 +26,9 @@ public class SpriteContainer extends BodyHolder implements Disposable {
         super(world, position, size, type, density, passThrough, SpriteContainer.id);
 
         SpriteContainer.id++;
+    }
+
+    public void update(SpriteBatch batch, CameraController camera) {
     }
 
     @Override
