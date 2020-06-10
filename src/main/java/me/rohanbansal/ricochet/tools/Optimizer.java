@@ -2,6 +2,7 @@ package me.rohanbansal.ricochet.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import me.rohanbansal.ricochet.body.SpriteContainer;
 import me.rohanbansal.ricochet.camera.CameraController;
 import me.rohanbansal.ricochet.effects.EffectCreator;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Optimizer {
+public class Optimizer implements Disposable {
 
     public enum Objects {
         TEXT, EFFECTS, MAP, WORLD, SPRITES, CAMERAS
@@ -47,10 +48,10 @@ public class Optimizer {
                     updateStack.add(effectFactory);
                 }
                 if(obj == Objects.CAMERAS) {
-                    updateStack.add(cameras);
+                    updateStack.addAll(cameras);
                 }
                 if(obj == Objects.SPRITES) {
-                    updateStack.add(sprites);
+                    updateStack.addAll(cameras);
                 }
                 if(obj == Objects.MAP) {
                     updateStack.add(mapManager);
@@ -62,27 +63,23 @@ public class Optimizer {
         }
 
         for(int i = 0; i < updateStack.size() + 1; i++) {
-            Object process = updateStack.poll();
-            if(process instanceof ObjCombination) {
-                if(((ObjCombination) process).identifier.equals("text")) {
-                    TextDrawer.update(hudCam);
-                } else if(((ObjCombination) process).identifier.equals("effect")) {
-                    EffectCreator.render(batch);
-                } else if(((ObjCombination) process).identifier.equals("map")) {
-                    ((MapManager) ((ObjCombination) process).obj1).update(worldCam);
-                } else if(((ObjCombination) process).identifier.equals("world")) {
-                    ((WorldManager) ((ObjCombination) process).obj1).update(Gdx.graphics.getDeltaTime(), worldCam);
-                }
-            } else if(process instanceof ArrayList) {
-                if(((ObjCombination) (((ArrayList) process).get(0))).identifier.equals("sprites")) {
-                    for(Object container : ((ArrayList) process)) {
-                        ((SpriteContainer) container).update(batch, worldCam);
-                    }
-                } else if(((ObjCombination) (((ArrayList) process).get(0))).identifier.equals("cameras")) {
-                    for(Object container : ((ArrayList) process)) {
-                        ((CameraController) container).update();
-                    }
-                }
+            ObjCombination process = (ObjCombination) updateStack.poll();
+            assert process != null;
+            if (process.identifier.equals("text")) {
+                TextDrawer.update(hudCam);
+            } else if (process.identifier.equals("effect")) {
+                EffectCreator.render(batch);
+            } else if (process.identifier.equals("map")) {
+                ((MapManager) process.obj1).update(worldCam);
+            } else if (process.identifier.equals("world")) {
+                ((WorldManager) process.obj1).update(Gdx.graphics.getDeltaTime(), worldCam);
+            } else if (process.identifier.equals("sprites")) {
+                batch.setProjectionMatrix(worldCam.getCamera().combined);
+                batch.begin();
+                ((SpriteContainer) process.obj1).update(batch, worldCam);
+                batch.end();
+            } else if (process.identifier.equals("cameras")) {
+                ((CameraController) process.obj1).update();
             }
         }
     }
@@ -133,5 +130,17 @@ public class Optimizer {
         } else {
             this.cameras.add(new ObjCombination<>(camera, -1, "cameras"));
         }
+    }
+
+    @Override
+    public void dispose() {
+        cameras.clear();
+        for(ObjCombination combination : sprites) {
+            ((SpriteContainer) combination.obj1).dispose();
+        }
+        sprites.clear();
+        worldManager = null;
+        mapManager = null;
+        EffectCreator.disposeAtlas();
     }
 }

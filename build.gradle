@@ -5,11 +5,11 @@ plugins {
 }
 
 group 'me.rohanbansal'
-version '1.9.3'
+version '1.9.4'
 
 group = "me.rohanbansal.ricochet"
 archivesBaseName = "ricochet"
-version = "1.9.3-SNAPSHOT"
+version = "1.9.4-SNAPSHOT"
 
 repositories {
     mavenCentral()
