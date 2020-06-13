@@ -20,10 +20,28 @@ public class SpriteContainer extends BodyHolder implements Disposable {
 
     private TextureAtlas atlas;
 
+    /**
+     * Construct a sprite with a body
+     * @param world world to be created in
+     * @param position position of the body
+     * @param size size of the body (e.g. [32, 64])
+     * @param type type of body - static, dynamic, or kinematic
+     * @param spritePath path to the sprite .pack file or static .png
+     */
     public SpriteContainer(WorldManager world, Vector2 position, Vector2 size, BodyDef.BodyType type, String spritePath) {
         this(world, position, size, type, 1f, false, spritePath);
     }
 
+    /**
+     * Construct a sprite with a body and more parameters
+     * @param world world to be created in
+     * @param position position of the body
+     * @param size size of the body (e.g. [32, 64])
+     * @param type type of body - static, dynamic, or kinematic
+     * @param density density of body
+     * @param passThrough whether the sprite can detect collisions but doesnt interact with them
+     * @param spritePath path to the sprite .pack file or static .png
+     */
     public SpriteContainer(WorldManager world, Vector2 position, Vector2 size, BodyDef.BodyType type, float density, boolean passThrough, String spritePath) {
         super(world, position, size, type, density, passThrough, SpriteContainer.id);
 
@@ -34,10 +52,18 @@ public class SpriteContainer extends BodyHolder implements Disposable {
         SpriteContainer.id++;
     }
 
+    /**
+     * Disables body rotation, ideal for platformers
+     */
     public void disableRotation() {
         getBody().setFixedRotation(true);
     }
 
+    /**
+     * Main update method
+     * @param batch SpriteBatch to draw sprite with
+     * @param camera Camera to draw sprite on
+     */
     public void update(SpriteBatch batch, CameraController camera) {
 
         batch.setProjectionMatrix(camera.getCamera().combined);
@@ -49,6 +75,10 @@ public class SpriteContainer extends BodyHolder implements Disposable {
         batch.end();
     }
 
+    /**
+     *
+     * @return get the sprite rectangle bounds
+     */
     public Rectangle getRectangle() {
         return new Rectangle(getBody().getPosition().x - size.x / 2 / world.getPPM(),
                 getBody().getPosition().y - size.y / 2 / world.getPPM(),

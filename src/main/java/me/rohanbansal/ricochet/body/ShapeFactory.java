@@ -11,7 +11,17 @@ public class ShapeFactory {
 
     private ShapeFactory() {}
 
-    public static Body createRectangle(WorldManager world, Vector2 position, Vector2 size, BodyDef.BodyType type, float density, boolean sensor) {
+    /**
+     * Creates a basic collideable rectangle body
+     * @param world world to create the body in
+     * @param position location of the body
+     * @param size size of the body (e.g. [32, 64])
+     * @param type type of body - static, dynamic, kinematic
+     * @param density density of the body
+     * @param sensor whether the body is a sensor - this means it will not be collideable, but can still detect collisions
+     * @return returns the processed body
+     */
+    public static Body createRectBody(WorldManager world, Vector2 position, Vector2 size, BodyDef.BodyType type, float density, boolean sensor) {
 
         final BodyDef bdef = new BodyDef();
         bdef.position.set(position.x / world.getPPM(), position.y / world.getPPM());
@@ -31,6 +41,14 @@ public class ShapeFactory {
         return body;
     }
 
+    /**
+     * Generate a rectangle body from a TiledMap rect object
+     * @param rectObject the rect from the tiledmap to be processed
+     * @param world the world to create the body in
+     * @param type the type of body - static, dynamic, or kinematic
+     * @param sensor whether the body is a sensor - this means it will not be collideable, but can still detect collisions
+     * @return return the processed body
+     */
     public static Body createRectangleFromMap(RectangleMapObject rectObject, WorldManager world, BodyDef.BodyType type, boolean sensor) {
 
         Rectangle rect = rectObject.getRectangle();
@@ -53,7 +71,16 @@ public class ShapeFactory {
         return body;
     }
 
-    public static Body createPolygon(WorldManager world, final float[] vertices, BodyDef.BodyType type, float density, boolean sensor) {
+    /**
+     * Creates a basic collideable polygon body object
+     * @param world Wold to be created in
+     * @param vertices a list of vertices (clockwise)
+     * @param type type of body - static, dynamic, or kinematic
+     * @param density density og body
+     * @param sensor whether the body is a sensor - this means it will not be collideable, but can still detect collisions
+     * @return return the processed polygon body
+     */
+    public static Body createPolyBody(WorldManager world, final float[] vertices, BodyDef.BodyType type, float density, boolean sensor) {
 
         PolygonShape polygon = new PolygonShape();
         float[] worldVertices = new float[vertices.length];
@@ -79,6 +106,14 @@ public class ShapeFactory {
         return body;
     }
 
+    /**
+     * Generate a polygon body from a TiledMap rect object
+     * @param polygonObject the polygon from the tiledmap to be processed
+     * @param world world to create body in
+     * @param type type of body - static, kinematic, or dynamic
+     * @param sensor whether the body is a sensor - this means it will not be collideable, but can still detect collisions
+     * @return return the processed body
+     */
     public static Body createPolygonFromMap(PolygonMapObject polygonObject, WorldManager world, BodyDef.BodyType type, boolean sensor) {
         PolygonShape polygon = new PolygonShape();
         float[] vertices = polygonObject.getPolygon().getTransformedVertices();
