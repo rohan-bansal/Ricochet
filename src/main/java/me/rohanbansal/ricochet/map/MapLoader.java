@@ -73,7 +73,7 @@ public class MapLoader implements Disposable {
     }
 
     /**
-     * dipose the map
+     * dispose the map
      */
     @Override
     public void dispose() {

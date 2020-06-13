@@ -10,16 +10,19 @@
 - Text renderer that schedule drawing
 - Vector tools like dot product, etc.
 - Modified shape renderer to draw perfect rounded rectangles
+- Effect factory/renderer with easy import and timeout
+- Camera actions sequences, follow
+- Music manager
+
 
 ## To Do
 
-- Effect factory/renderer with easy import and timeout
 - Fix hitbox definitions
 - ASCII room layout cast to object
-- Camera actions sequences, follow
 - Realistic lighting
-- Music manager
-- overrideable input handling
+- Overrideable input handling
+- Spritesheet processing
+- Map layout converter
 
 
 ## How To Install
@@ -32,7 +35,7 @@ Add this to your `pom.xml`:
 <dependency>
   <groupId>me.rohanbansal.ricochet</groupId>
   <artifactId>ricochet</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.9.5-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -41,7 +44,7 @@ Add this to your `pom.xml`:
 Add this to your `build.gradle`:
 
 ```$xslt
-compile "me.rohanbansal.ricochet:ricochet:1.5-SNAPSHOT"
+compile "me.rohanbansal.ricochet:ricochet:1.9.5-SNAPSHOT"
 ```
 
 ### Other
