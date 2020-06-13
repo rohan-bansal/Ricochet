@@ -16,19 +16,30 @@ public class Effect {
     private boolean looping;
     private float scale, frame_speed;
     private TextureAtlas animAtlas;
-    public CameraController camera;
 
-    public Effect(float frame_speed, TextureAtlas animAtlas, Vector2 position, boolean looping, float scale, CameraController cam) {
+    /**
+     * Initialize a new effect, usually done by the EffectCreator
+     * @param frame_speed how fast to play the effect
+     * @param animAtlas the textureatlas with effect data loaded
+     * @param position position to load effect
+     * @param looping loop the effect
+     * @param scale effect size
+     */
+    public Effect(float frame_speed, TextureAtlas animAtlas, Vector2 position, boolean looping, float scale) {
         animation = new Animation<>(frame_speed, animAtlas.getRegions());
 
         this.position = position;
         this.looping = looping;
         this.scale = scale;
-        this.camera = cam;
         this.frame_speed = frame_speed;
         this.animAtlas = animAtlas;
     }
 
+    /**
+     * Main render method, run by EffectCreator
+     * @param camera camera to draw on
+     * @param batch SpriteBatch to draw with
+     */
     public void render(CameraController camera, SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime, looping);
@@ -44,7 +55,14 @@ public class Effect {
         batch.end();
     }
 
-    public Effect duplicateWith(Vector2 position, boolean looping, float scale, CameraController camera) {
-        return new Effect(frame_speed, animAtlas, position, looping, scale, camera);
+    /**
+     * Duplicate an effect with new parameters
+     * @param position new position
+     * @param looping new looping value (true, false)
+     * @param scale size of effect
+     * @return return the processed effect
+     */
+    public Effect duplicateWith(Vector2 position, boolean looping, float scale) {
+        return new Effect(frame_speed, animAtlas, position, looping, scale);
     }
 }

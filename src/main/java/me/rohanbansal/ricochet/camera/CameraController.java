@@ -36,6 +36,11 @@ public class CameraController {
     private ArrayList<CameraAction> actionsToRemove = new ArrayList<>();
 
 
+    /**
+     * initialize a camera
+     * @param isBox2D whether to calculate the viewport by PPM
+     * @param PPM pixels per meter, only required if first parameter is true
+     */
     public CameraController(boolean isBox2D, float PPM) {
         camera = new OrthographicCamera();
         if(!isBox2D) {
@@ -45,14 +50,25 @@ public class CameraController {
         }
     }
 
+    /**
+     * initialize a camera
+     * @param isBox2D whether to calculate the viewport by PPM
+     */
     public CameraController(boolean isBox2D) {
         this(isBox2D, 1f);
     }
 
+    /**
+     * add a camera action sequence
+     * @param actionSequence a list of CameraActions
+     */
     public void attachCameraSequence(ArrayList<CameraAction> actionSequence) {
         this.sequence = actionSequence;
     }
 
+    /**
+     * main camera sequence process method
+     */
     public void processCameraSequence() {
         if(sequence != null) {
             for(CameraAction action : sequence) {
@@ -94,6 +110,10 @@ public class CameraController {
 
     }
 
+    /**
+     * Initialize an action alongside another one
+     * @param action action to be used
+     */
     private void parseConcurrentAction(CameraAction action) {
         if(action.getAction().equals("glide")) {
             action_in_progress = true;
@@ -106,6 +126,9 @@ public class CameraController {
         }
     }
 
+    /**
+     * main update method - camera update, camera sequence processing, etc.
+     */
     public void update() {
         camera.update();
         processCameraSequence();
@@ -152,12 +175,22 @@ public class CameraController {
 
     }
 
+    /**
+     * wait a specific amount of milliseconds
+     * @param milliseconds time to wait
+     */
     public void wait(int milliseconds) {
         action_in_progress = true;
         this.milliseconds = milliseconds;
         startTime = TimeUtils.millis();
     }
 
+    /**
+     * Interpolate zoom
+     * @param value zoom value to go to
+     * @param duration how long to zoom for
+     * @param interp type of interpolation
+     */
     public void smoothZoomTo(float value, float duration, Interpolation interp) {
         action_in_progress = true;
         this.zoomToVal = value;
@@ -167,6 +200,12 @@ public class CameraController {
         this.interp = interp;
     }
 
+    /**
+     * Interpolate translation/gliding
+     * @param position position to go to
+     * @param alpha speed of translation
+     * @param interp type of interpolation
+     */
     public void smoothTranslateTo(Vector2 position, float alpha, Interpolation interp) {
         action_in_progress = true;
         this.interp = interp;
@@ -175,10 +214,19 @@ public class CameraController {
         camera.unproject(glideTo);
     }
 
+    /**
+     *
+     * @return get the orthographic camera
+     */
     public OrthographicCamera getCamera() {
         return camera;
     }
 
+    /**
+     * set viewport size
+     * @param x size width
+     * @param y size height
+     */
     public void setViewportSize(int x, int y) {
         viewport.update(x, y);
     }

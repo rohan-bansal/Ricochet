@@ -86,6 +86,9 @@ public class SpriteContainer extends BodyHolder implements Disposable {
                 size.y / world.getPPM());
     }
 
+    /**
+     * Dispose the atlas
+     */
     @Override
     public void dispose() {
         atlas.dispose();

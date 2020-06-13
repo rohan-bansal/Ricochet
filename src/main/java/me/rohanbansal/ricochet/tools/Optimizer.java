@@ -30,13 +30,23 @@ public class Optimizer implements Disposable {
     private ArrayList<Objects>  objsToOptimize = new ArrayList<>();
 
 
-
+    /**
+     * Optimize and update only the methods specified below
+     * @param objects which objects to update - text, effects, map, world, sprites, or cameras
+     */
     public void setOptimize(Objects... objects) {
         if(objects.length > 0) {
             objsToOptimize.addAll(Arrays.asList(objects));
         }
     }
 
+    /**
+     * main update method.
+     * it first sorts optimizeable objects by priority in a queue, then polls each one and updates
+     * @param worldCam world camera to update with
+     * @param hudCam heads up camera to update with
+     * @param batch spritebatch to draw with
+     */
     public void optimizeAndUpdate(CameraController worldCam, CameraController hudCam, SpriteBatch batch) {
 
         for(Objects obj : objsToOptimize) {
@@ -68,7 +78,7 @@ public class Optimizer implements Disposable {
             if (process.identifier.equals("text")) {
                 TextDrawer.update(hudCam);
             } else if (process.identifier.equals("effect")) {
-                EffectCreator.render(batch);
+                EffectCreator.render(worldCam, batch);
             } else if (process.identifier.equals("map")) {
                 ((MapManager) process.obj1).update(worldCam);
             } else if (process.identifier.equals("world")) {
@@ -84,6 +94,10 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * use the text drawer in update
+     * @param priority priority relative to others
+     */
     public void useTextDrawer(int... priority) {
         if(priority.length > 0) {
             this.textDrawer = new ObjCombination<>(true, priority[0], "text");
@@ -92,6 +106,10 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * use effect creator in update
+     * @param priority priority relative to others
+     */
     public void useEffectCreator(int... priority) {
         if(priority.length > 0) {
             this.effectFactory = new ObjCombination<>(true, priority[0], "effect");
@@ -100,6 +118,11 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * set mapmanager to update
+     * @param manager mapmanager to update
+     * @param priority priority relative to others
+     */
     public void setMapManager(MapManager manager, int... priority) {
         if(priority.length > 0) {
             this.mapManager = new ObjCombination<>(manager, priority[0], "map");
@@ -108,6 +131,11 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * set worldmanager to update
+     * @param manager worldmanager to update
+     * @param priority priority relative to others
+     */
     public void setWorldManager(WorldManager manager, int... priority) {
         if(priority.length > 0) {
             this.worldManager = new ObjCombination<>(manager, priority[0], "world");
@@ -116,6 +144,11 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * add a spritecontainer to the list to update
+     * @param container spritecontainer to add
+     * @param priority priority relative to others
+     */
     public void addSpriteContainer(SpriteContainer container, int... priority) {
         if(priority.length > 0) {
             this.sprites.add(new ObjCombination<>(container, priority[0], "sprites"));
@@ -124,6 +157,11 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * add a camera to the list to update
+     * @param camera camera to add
+     * @param priority priority relative to others
+     */
     public void addCamera(CameraController camera, int... priority) {
         if(priority.length > 0) {
             this.cameras.add(new ObjCombination<>(camera, priority[0], "cameras"));
@@ -132,6 +170,9 @@ public class Optimizer implements Disposable {
         }
     }
 
+    /**
+     * dispose all
+     */
     @Override
     public void dispose() {
         cameras.clear();

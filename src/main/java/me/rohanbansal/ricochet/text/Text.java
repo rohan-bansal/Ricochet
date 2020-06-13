@@ -10,6 +10,15 @@ public class Text {
     public Color color;
     public float scale;
 
+    /**
+     * Stores text information
+     * @param batch spritebatch used to draw
+     * @param text text string
+     * @param x position x
+     * @param y position y
+     * @param color color of text
+     * @param scale size of text
+     */
     public Text(SpriteBatch batch, String text, float x, float y, Color color, float scale) {
         this.batch = batch;
         this.text = text;

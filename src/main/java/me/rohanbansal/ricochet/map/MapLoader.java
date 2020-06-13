@@ -22,10 +22,20 @@ public class MapLoader implements Disposable {
 
     private ArrayList<Body> wallList = new ArrayList<>();
 
+    /**
+     * initialize a maploader instance
+     * @param world world to create bodies in
+     */
     public MapLoader(WorldManager world) {
         this.world = world;
     }
 
+    /**
+     * Load a tiledMap from assets into the world
+     * @param mapName path to map
+     * @param collisionIdentifier string identifier used for the collision layer
+     * @return return the new maploader instance
+     */
     public MapLoader loadMap(String mapName, String collisionIdentifier) {
         map = new TmxMapLoader().load(mapName);
 
@@ -46,14 +56,25 @@ public class MapLoader implements Disposable {
         return this;
     }
 
+    /**
+     * get list of walls processed from map
+     * @return list of walls
+     */
     public ArrayList<Body> getWallList() {
         return wallList;
     }
 
+    /**
+     * get the pure map instance
+     * @return
+     */
     public TiledMap getMap() {
         return map;
     }
 
+    /**
+     * dipose the map
+     */
     @Override
     public void dispose() {
         map.dispose();
