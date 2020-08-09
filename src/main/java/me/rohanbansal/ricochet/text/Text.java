@@ -1,7 +1,11 @@
 package me.rohanbansal.ricochet.text;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Text {
     public SpriteBatch batch;
@@ -26,5 +30,15 @@ public class Text {
         this.y = y;
         this.color = color;
         this.scale = scale;
+    }
+
+    public static BitmapFont renderFont(String fontfile, int size) {
+        FileHandle fontFile = Gdx.files.internal(fontfile);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        BitmapFont fnt = generator.generateFont(parameter);
+        generator.dispose();
+        return fnt;
     }
 }

@@ -5,11 +5,11 @@ plugins {
 }
 
 group 'me.rohanbansal'
-version '1.9.5'
+version '1.9.6'
 
 group = "me.rohanbansal.ricochet"
 archivesBaseName = "ricochet"
-version = "1.9.5-SNAPSHOT"
+version = "1.9.6-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -119,4 +119,5 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
     compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 }
