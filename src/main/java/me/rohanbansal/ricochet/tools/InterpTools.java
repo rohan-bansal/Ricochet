@@ -1,8 +1,6 @@
 package me.rohanbansal.ricochet.tools;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,6 +9,15 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class InterpTools {
 
+    /**
+     * An interpolation method that can be used on actors to slide them in from different directions.
+     * @param actor actor to slide in
+     * @param location location (left, right, top, down)
+     * @param duration duration of slide-in
+     * @param interp interpolation method to be used
+     * @param offset offset of actor off the screen
+     * @param runnable on-finish runnable
+     */
     public static void slideIn(Actor actor, String location, float duration, Interpolation interp, int offset, Runnable... runnable) {
         Vector2 actorXY = new Vector2(actor.getX(), actor.getY());
 
@@ -54,6 +61,15 @@ public class InterpTools {
         }
     }
 
+    /**
+     * An interpolation method that can be used on actors to slide them off the screen from different directions.
+     * @param actor actor to slide in
+     * @param location location (left, right, top, down)
+     * @param duration duration of slide-out
+     * @param interp interpolation method to be used
+     * @param offset offset of actor off the screen
+     * @param runnable on-finish runnable
+     */
     public static void slideOut(Actor actor, String location, float duration, Interpolation interp, int offset, Runnable... runnable) {
         Vector2 actorXY = new Vector2(actor.getX(), actor.getY());
 
@@ -88,6 +104,15 @@ public class InterpTools {
             }        }
     }
 
+    /**
+     * Slide in multiple actors at once, option to have a delay in between to stagger
+     * @param location (left, right, top, down)
+     * @param duration length of total slide-in
+     * @param interp interpolation method to be used
+     * @param offset offset off the screen
+     * @param delay delay between actor interps
+     * @param actors actors to be used
+     */
     public static void sequenceSlideIn(String location, float duration, Interpolation interp, int offset, float delay, Actor... actors) {
 
         float currentDelay = 0f;
@@ -117,6 +142,15 @@ public class InterpTools {
         }
     }
 
+    /**
+     * Slide out multiple actors at once, option to have a delay in between to stagger
+     * @param location (left, right, top, down)
+     * @param duration length of total slide-out
+     * @param interp interpolation method to be used
+     * @param offset offset off the screen
+     * @param delay delay between actor interps
+     * @param actors actors to be used
+     */
     public static void sequenceSlideOut(String location, float duration, Interpolation interp, int offset, float delay, Actor... actors) {
 
         float currentDelay = 0f;
