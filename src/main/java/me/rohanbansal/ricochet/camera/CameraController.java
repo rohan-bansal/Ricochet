@@ -133,6 +133,11 @@ public class CameraController {
         camera.update();
         processCameraSequence();
 
+        if (Rumble.getRumbleTimeLeft() > 0){
+            Rumble.tick(Gdx.graphics.getDeltaTime());
+            getCamera().translate(Rumble.getPos());
+        }
+
         if(milliseconds > 0) {
             if(TimeUtils.timeSinceMillis(startTime) >= milliseconds) {
                 milliseconds = 0;
