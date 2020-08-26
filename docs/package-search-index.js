@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"me.rohanbansal.ricochet.body"},{"l":"me.rohanbansal.ricochet.camera"},{"l":"me.rohanbansal.ricochet.effects"},{"l":"me.rohanbansal.ricochet.files"},{"l":"me.rohanbansal.ricochet.map"},{"l":"me.rohanbansal.ricochet.text"},{"l":"me.rohanbansal.ricochet.tools"},{"l":"me.rohanbansal.ricochet.world"}]
