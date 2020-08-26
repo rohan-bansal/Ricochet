@@ -126,8 +126,13 @@ public class CameraController {
         }
     }
 
+    /**
+     * initialize a rumble from the camera itself
+     * @param rumblePower rumble power
+     * @param rumbleLength rumble length
+     */
     public void rumble(float rumblePower, float rumbleLength) {
-        Rumble.rumble(rumblePower, rumbleLength, this);
+        Rumble.rumble(rumblePower, rumbleLength);
     }
 
     /**
