@@ -126,6 +126,10 @@ public class CameraController {
         }
     }
 
+    public void rumble(float rumblePower, float rumbleLength) {
+        Rumble.rumble(rumblePower, rumbleLength, this);
+    }
+
     /**
      * main update method - camera update, camera sequence processing, etc.
      */
