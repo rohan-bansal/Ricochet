@@ -64,7 +64,7 @@ public class MapLoader implements Disposable {
         return wallList;
     }
 
-    /**
+    /** 
      * get the pure map instance
      * @return
      */
