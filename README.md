@@ -35,7 +35,7 @@ Add this to your `pom.xml`:
 <dependency>
   <groupId>me.rohanbansal.ricochet</groupId>
   <artifactId>ricochet</artifactId>
-  <version>1.9.5-SNAPSHOT</version>
+  <version>1.9.8-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ Add this to your `pom.xml`:
 Add this to your `build.gradle`:
 
 ```$xslt
-compile "me.rohanbansal.ricochet:ricochet:1.9.5-SNAPSHOT"
+compile "me.rohanbansal.ricochet:ricochet:1.9.8-SNAPSHOT"
 ```
 
 ### Other
